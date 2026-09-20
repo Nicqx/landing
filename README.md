@@ -51,3 +51,18 @@ A Deployment neve/selectorja változatlan; egy szándékosan 0-ra állított dep
 A kezdőlap nem bizonyítja, hogy minden játék backendje készen áll. A NUC-on jelenleg több játék még nem Ready; a routert emiatt még ne állítsd át. Az útvonalakat az [ingress repo](https://github.com/Nicqx/ingress) kezeli.
 
 Teszt: `python3 -m unittest discover -s tests -v`. A GitHub CI a tényleges, rögzített nginx image-et is indítja a nem-root/írásvédett beállításokkal, és ellenőrzi az egészségvégpontot, asseteket, HTTP fejléceket. Helyben Dockerrel: `python3 scripts/check_nginx.py`.
+
+## Migráció, leállítás és eltávolítás
+
+A kezdőlap állapotmentes: nincs PVC vagy adatbázis. Új gépen klónozd a repót, futtasd a `--target nuc --dry-run`, majd az update parancsot. Az ingress külön repóból települ.
+
+```bash
+# ideiglenes leállítás / visszaindítás
+sudo k3s kubectl scale deployment/landing-page-deployment -n default --replicas=0
+sudo k3s kubectl scale deployment/landing-page-deployment -n default --replicas=1
+
+# eltávolítás; ingresshez és más alkalmazáshoz nem nyúl
+sudo k3s kubectl delete deployment/landing-page-deployment service/landing-page-service -n default
+```
+
+Rollbackhoz használd az update által kiírt manifestmentést a `scripts/manage.py rollback` paranccsal. A törlés után ugyanaz az `update.sh --target nuc` telepíti újra.
