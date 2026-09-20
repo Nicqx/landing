@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c2c">
+  <title>Játékszoba</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header><p class="eyebrow">Közös játék, egy helyen</p><h1>Játékszoba</h1><p>Válassz játékot, vagy csatlakozz egy meglévő szobához az ötjegyű kóddal.</p></header>
+    <div class="games">
+      <article><span class="number">01</span><h2>Sumplete</h2><p>Találd meg az összegekhez illő számokat.</p><a class="start" href="/sumplete/">Játék megnyitása <span aria-hidden="true">↗</span></a>
+        <form data-base="/sumplete/"><label for="sumplete-code">Szobakód</label><div class="join"><input id="sumplete-code" name="code" inputmode="numeric" pattern="[0-9]{5}" minlength="5" maxlength="5" placeholder="12345" autocomplete="off" required><button type="submit">Csatlakozás</button></div></form></article>
+      <article><span class="number">02</span><h2>Ultimate amőba</h2><p>Kilenc tábla, egy közös stratégia.</p><a class="start" href="/tic-tac-toe/">Játék megnyitása <span aria-hidden="true">↗</span></a>
+        <form data-base="/tic-tac-toe/"><label for="ttt-code">Szobakód</label><div class="join"><input id="ttt-code" name="code" inputmode="numeric" pattern="[0-9]{5}" minlength="5" maxlength="5" placeholder="12345" autocomplete="off" required><button type="submit">Csatlakozás</button></div></form></article>
+      <article><span class="number">03</span><h2>Sakk</h2><p>Egy klasszikus párbaj, lépésről lépésre.</p><a class="start" href="/chess/">Játék megnyitása <span aria-hidden="true">↗</span></a>
+        <form data-base="/chess/"><label for="chess-code">Szobakód</label><div class="join"><input id="chess-code" name="code" inputmode="numeric" pattern="[0-9]{5}" minlength="5" maxlength="5" placeholder="12345" autocomplete="off" required><button type="submit">Csatlakozás</button></div></form></article>
+      <article><span class="number">04</span><h2>Sudoku</h2><p>Egy kis nyugalom. Kilenc szám. Sok lehetőség.</p><a class="start" href="/sudoku/">Játék megnyitása <span aria-hidden="true">↗</span></a></article>
+      <article><span class="number">05</span><h2>Maffia</h2><p>Szerepek, gyanúk és közös döntések.</p><a class="start" href="/maffia/">Játék megnyitása <span aria-hidden="true">↗</span></a></article>
+      <article><span class="number">06</span><h2>Bakos</h2><p>Szavak és meghatározások társaságban.</p><a class="start" href="/bakos/">Játék megnyitása <span aria-hidden="true">↗</span></a></article>
+    </div>
+    <p class="notice" role="status" id="notice"></p>
+    <footer>A játékok ugyanazon a címen nyílnak meg; külön portot nem kell megadnod.</footer>
+  </main>
+</body>
+</html>
