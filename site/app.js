@@ -1,5 +1,5 @@
 'use strict';
-const allowed = new Set(['/sumplete/', '/tic-tac-toe/', '/chess/']);
+const allowed = new Set(['/sumplete/', '/tic-tac-toe/', '/chess/', '/citadella/']);
 document.querySelectorAll('form[data-base]').forEach((form) => {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
