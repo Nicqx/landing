@@ -18,7 +18,7 @@ class LandingTests(unittest.TestCase):
     def test_all_game_links_stay_on_same_origin(self):
         page = Page(); page.feed((ROOT / 'site/index.html').read_text())
         links = [a['href'] for tag, a in page.tags if tag == 'a']
-        self.assertEqual(set(links), {'/sumplete/', '/tic-tac-toe/', '/chess/', '/sudoku/', '/bakos/', '/maffia/'})
+        self.assertEqual(set(links), {'/sumplete/', '/tic-tac-toe/', '/chess/', '/sudoku/', '/bakos/', '/maffia/', '/citadella/'})
         for _, attrs in page.tags:
             self.assertFalse(any(key.startswith('on') for key in attrs))
         scripts = [a for tag, a in page.tags if tag == 'script']
