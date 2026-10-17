@@ -66,3 +66,19 @@ sudo k3s kubectl delete deployment/landing-page-deployment service/landing-page-
 ```
 
 Rollbackhoz használd az update által kiírt manifestmentést a `scripts/manage.py rollback` paranccsal. A törlés után ugyanaz az `update.sh --target nuc` telepíti újra.
+
+## Wizard of Wor csempe – 8. játék
+
+A `feat/wizard-of-wor-tile` ág új, nyolcadik csempét ad a C64 Wizard of Wor játékhoz: `/wizard-of-wor/`, ötjegyű szobakóddal történő belépéssel. A korábbi csempék és a landing backend változatlanok. A Wizard k3s Service és HTTPS ingress már külön repókban léteznek; ezen az ágon kizárólag a kezdőlap változik.
+
+Telepítés a NUC-on, a játékszerver telepítésétől függetlenül:
+
+```bash
+cd ~/codes/landing
+git fetch origin
+git switch feat/wizard-of-wor-tile
+KUBECTL='sudo k3s kubectl' ./update.sh --target nuc --dry-run
+KUBECTL='sudo k3s kubectl' ./update.sh --target nuc
+```
+
+A landing frissítése nem telepíti/indítja újra a Wizard backendjét. Frissítés után `https://pmqxyz.hopto.org/` oldalon megjelenik az új csempe, külön mobiltelepítés nélkül.
