@@ -18,11 +18,18 @@ class LandingTests(unittest.TestCase):
     def test_all_game_links_stay_on_same_origin(self):
         page = Page(); page.feed((ROOT / 'site/index.html').read_text())
         links = [a['href'] for tag, a in page.tags if tag == 'a']
-        self.assertEqual(set(links), {'/sumplete/', '/tic-tac-toe/', '/chess/', '/sudoku/', '/bakos/', '/maffia/', '/citadella/'})
+        self.assertEqual(set(links), {'/sumplete/', '/tic-tac-toe/', '/chess/', '/sudoku/', '/bakos/', '/maffia/', '/citadella/', '/wizard-of-wor/'})
         for _, attrs in page.tags:
             self.assertFalse(any(key.startswith('on') for key in attrs))
         scripts = [a for tag, a in page.tags if tag == 'script']
         self.assertTrue(all('src' in s for s in scripts))
+
+    def test_wizard_card_has_room_join_without_external_origin(self):
+        html = (ROOT / 'site/index.html').read_text()
+        self.assertIn('href="/wizard-of-wor/"', html)
+        self.assertIn('data-base="/wizard-of-wor/"', html)
+        self.assertIn('id="wizard-code"', html)
+        self.assertIn("'/wizard-of-wor/'", (ROOT / 'site/app.js').read_text())
 
     def test_service_keeps_port_80_with_non_root_backend(self):
         items = manage.render()
