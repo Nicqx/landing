@@ -18,11 +18,25 @@ class LandingTests(unittest.TestCase):
     def test_all_game_links_stay_on_same_origin(self):
         page = Page(); page.feed((ROOT / 'site/index.html').read_text())
         links = [a['href'] for tag, a in page.tags if tag == 'a']
-        self.assertEqual(set(links), {'/sumplete/', '/tic-tac-toe/', '/chess/', '/sudoku/', '/bakos/', '/maffia/', '/citadella/'})
+        self.assertEqual(set(links), {'/sumplete/', '/tic-tac-toe/', '/chess/', '/sudoku/', '/bakos/', '/maffia/', '/citadella/', '/pandemic/'})
         for _, attrs in page.tags:
             self.assertFalse(any(key.startswith('on') for key in attrs))
         scripts = [a for tag, a in page.tags if tag == 'script']
         self.assertTrue(all('src' in s for s in scripts))
+
+    def test_pandemic_tile_has_accessible_room_form(self):
+        source = (ROOT / 'site/index.html').read_text()
+        page = Page()
+        page.feed(source)
+        self.assertEqual(source.count('href="/pandemic/"'), 1)
+        self.assertEqual(source.count('data-base="/pandemic/"'), 1)
+        self.assertIn('id="pandemic-code"', source)
+        self.assertIn('pattern="[0-9]{5}"', source)
+        app_js = (ROOT / 'site/app.js').read_text()
+        self.assertIn("'/pandemic/'", app_js)
+        self.assertIn("'/pandemic/?room=' + encodeURIComponent(code)", app_js)
+        self.assertNotIn('http://192.168.', source)
+        self.assertNotIn('http://192.168.', app_js)
 
     def test_service_keeps_port_80_with_non_root_backend(self):
         items = manage.render()
