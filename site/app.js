@@ -1,11 +1,16 @@
 'use strict';
-const allowed = new Set(['/sumplete/', '/tic-tac-toe/', '/chess/', '/citadella/']);
+const allowed = new Set(['/sumplete/', '/tic-tac-toe/', '/chess/', '/citadella/', '/pandemic/']);
 document.querySelectorAll('form[data-base]').forEach((form) => {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const code = new FormData(form).get('code').trim();
     if (!allowed.has(form.dataset.base) || !/^[0-9]{5}$/.test(code)) {
       document.getElementById('notice').textContent = 'A szobakód pontosan öt számjegyből áll.';
+      return;
+    }
+    if (form.dataset.base === '/pandemic/') {
+      // Pandemic has a lobby form, not a /pandemic/<room> server route.
+      window.location.assign('/pandemic/?room=' + encodeURIComponent(code));
       return;
     }
     window.location.assign(form.dataset.base + encodeURIComponent(code));
