@@ -1,8 +1,21 @@
 # Játékszoba – közös, hordozható kezdőlap
 
-A hat játék relatív `/sumplete/`, `/tic-tac-toe/`, `/chess/`, `/sudoku/`, `/maffia/`, `/bakos/` útvonalakon érhető el. Nincs a kódban LAN IP vagy külön alkalmazásport; HTTPS-ről nyitva a játékok is HTTPS-en nyílnak meg. A Sumplete, amőba és sakk ötjegyű szobakódja a meglévő szerveroldali útvonalra visz.
+A nyolc játékkártya a `/sumplete/`, `/tic-tac-toe/`, `/chess/`, `/sudoku/`, `/maffia/`, `/bakos/`, `/citadella/` és `/pandemic/` relatív útvonalakat használja. Nincs a kódban LAN IP vagy külön alkalmazásport; HTTPS-ről nyitva a játékok is HTTPS-en nyílnak meg. A Sumplete, amőba és sakk ötjegyű szobakódja a meglévő szerveroldali útvonalra visz.
 
 A `landing-page-service` továbbra is belső ClusterIP és **80-as service-port**. A digesttel rögzített, ARM64/AMD64-képes nginx nem rootként, a konténerben **8080**-on fut. A fájlrendszer írásvédett, csak `/tmp` írható. Van readiness/liveness ellenőrzés, Content Security Policy és külső fájlba helyezett JavaScript/CSS. Nincs külső CDN vagy buildlépés.
+
+## Pandemic-csempe
+
+A nyolcadik csempe a **Pandemic** böngészős játékra mutat. A szobakódos csatlakozás
+`/pandemic/?room=12345` URL-t nyit, amelyből a Pandemic felület előre kitölti
+a kódot. A játékos továbbra is megadja a saját nevét és a csatlakozás gombot
+használja; a szobakód nem hitelesítési token.
+
+**Ez a csempe jelenleg előkészített változtatás.** A Pandemicet még csak helyi
+NUC-tesztszerveren futtattuk, és az állapota újraindításkor elveszik. A
+`/pandemic/` útvonalat csak ellenőrzött, hozzáférésvédett és mentett
+backend után érdemes az ingressben aktiválni. A kizárólag helyi
+`http://<NUC-IP>:8111` tesztcímet szándékosan nem tettük bele a csempébe.
 
 ## Közös használat
 
