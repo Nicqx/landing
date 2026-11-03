@@ -1,6 +1,18 @@
 # Játékszoba – közös, hordozható kezdőlap
 
-A hat játék relatív `/sumplete/`, `/tic-tac-toe/`, `/chess/`, `/sudoku/`, `/maffia/`, `/bakos/` útvonalakon érhető el. Nincs a kódban LAN IP vagy külön alkalmazásport; HTTPS-ről nyitva a játékok is HTTPS-en nyílnak meg. A Sumplete, amőba és sakk ötjegyű szobakódja a meglévő szerveroldali útvonalra visz.
+A játékok relatív útvonalakon érhetők el (például `/sumplete/`, `/tic-tac-toe/`, `/chess/`, `/pandemic/`). Nincs a kódban LAN IP vagy külön alkalmazásport; HTTPS-ről nyitva a játékok is HTTPS-en nyílnak meg. A Sumplete, amőba és sakk ötjegyű szobakódja a meglévő szerveroldali útvonalra visz.
+
+Külön **Pandemic** és **🧪 Pandemic – LAB próba** csempe is megjelenik.
+A LAB próba linkje `/pandemic/#lab-preview`: ez **nem új ingress/port,
+nem állandó LAB-mód**, hanem a Pandemic szerver meglévő
+meghívós belépése mögött működő, **memóriabeli, szintetikus
+14 kártyás próbaszobához** vezet. A próbajáték nem ír az
+éles Redisbe; a próbaszobák újraindításkor elvesznek.
+A link önmagában nem ad hozzáférést, az érvényes Pandemic-meghívó
+továbbra is szükséges. Először a Pandemic alkalmazásnak is
+a LAB preview funkciót tartalmazó, ellenőrzött verzióját kell
+futtatnia, különben a csempe nem kínál működő próbát.
+Lásd: [távoli LAB csempe üzembe helyezése](docs/PANDEMIC_LAB_REMOTE_TILE.md).
 
 A `landing-page-service` továbbra is belső ClusterIP és **80-as service-port**. A digesttel rögzített, ARM64/AMD64-képes nginx nem rootként, a konténerben **8080**-on fut. A fájlrendszer írásvédett, csak `/tmp` írható. Van readiness/liveness ellenőrzés, Content Security Policy és külső fájlba helyezett JavaScript/CSS. Nincs külső CDN vagy buildlépés.
 
