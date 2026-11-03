@@ -88,7 +88,7 @@ PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -q
 ```
 
 Az összes korábbi 537 teszten felül
-**1 új statikus teszt**, tehát **538/538**
+**2 új teszt** (mélyhivatkozás és meghívós hozzáférési kapu), tehát **539/539**
 várt PASS. Ezután Playwright:
 
 ```bash
