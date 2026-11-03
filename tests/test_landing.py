@@ -18,11 +18,29 @@ class LandingTests(unittest.TestCase):
     def test_all_game_links_stay_on_same_origin(self):
         page = Page(); page.feed((ROOT / 'site/index.html').read_text())
         links = [a['href'] for tag, a in page.tags if tag == 'a']
-        self.assertEqual(set(links), {'/sumplete/', '/tic-tac-toe/', '/chess/', '/sudoku/', '/bakos/', '/maffia/', '/citadella/'})
+        self.assertEqual(set(links), {
+            '/sumplete/', '/tic-tac-toe/', '/chess/', '/sudoku/',
+            '/bakos/', '/maffia/', '/citadella/', '/pandemic/',
+            '/pandemic/#lab-preview',
+        })
         for _, attrs in page.tags:
             self.assertFalse(any(key.startswith('on') for key in attrs))
         scripts = [a for tag, a in page.tags if tag == 'script']
         self.assertTrue(all('src' in s for s in scripts))
+
+    def test_lab_tile_is_a_link_only_and_never_opens_an_unguarded_port(self):
+        page = Page()
+        html = (ROOT / 'site/index.html').read_text(encoding='utf-8')
+        page.feed(html)
+        links = [attrs for tag, attrs in page.tags if tag == 'a']
+        lab = [attrs for attrs in links if attrs['href'] == '/pandemic/#lab-preview']
+        self.assertEqual(len(lab), 1)
+        self.assertFalse(any(attrs.get('target') == '_blank' for attrs in lab))
+        self.assertNotIn('127.0.0.1:', html)
+        self.assertNotIn('8768', html)
+        self.assertNotIn('PANDEMIC_LAB_ENABLE', html)
+        self.assertIn('14 szintetikus kártyával', html)
+        self.assertIn('meghívós belépéssel', html)
 
     def test_service_keeps_port_80_with_non_root_backend(self):
         items = manage.render()
